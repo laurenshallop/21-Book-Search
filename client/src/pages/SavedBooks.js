@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
+import React from 'react'
+import { 
+  Jumbotron, 
+  Container, 
+  CardColumns, 
+  Card, 
+  Button } from 'react-bootstrap';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
+import { useQuery, useMutation } from '@apollo/client'
 import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
-  const [removeBook, {error }] = useMutation(REMOVE_BOOK);
-
-const {loading, data} = useQuery(GET_ME);
-const userData = data?.me || {};
+  const {loading, data} = useQuery(GET_ME)
+const [removeBook, {error }] = useMutation(REMOVE_BOOK)
+const userData = data?.me || {}
 
 const handleDeleteBook = async (bookId) => {
   const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -20,17 +25,14 @@ const handleDeleteBook = async (bookId) => {
         try{
         const {data} = await removeBook({
           variables: {bookId}
-        });
-
-        if (error) {
-          throw new Error('something went wrong!');
-        }
+        })
 
         removeBookId(bookId);
       } catch (err) {
         console.error(err);
       }
-    };
+    }
+
     if(loading) {
       return <h2>LOADING..</h2>;
     }
@@ -67,7 +69,7 @@ const handleDeleteBook = async (bookId) => {
         </CardColumns>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default SavedBooks;
+export default SavedBooks

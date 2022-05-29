@@ -71,7 +71,7 @@ const AppNavbar = () => {
         </Tab.Container>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default AppNavbar;
+export default AppNavbar
